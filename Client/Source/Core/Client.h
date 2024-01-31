@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////
 
 #include "Core.h"
-#include "ClientNetwork.h"
+#include "NetworkManager.h"
 #include "SceneManager.h"
 
 //////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ private:
     void handleEvent(const sf::Event& event); 
 
 private:
-    UniquePtr<ClientNetwork> m_network;
+    UniquePtr<NetworkManager> m_network;
     sf::RenderWindow m_window;
     SceneManager m_sceneManager;
 };

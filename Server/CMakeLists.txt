@@ -3,10 +3,10 @@
 add_executable(${SERVER_TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Server.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/EntryPoint.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Network/ServerNetwork.cpp
 
     ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces/IScene.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Managers/SceneManager.cpp
+    ${CMAKE_SOURCE_DIR}/Common/Source/Managers/NetworkManager.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Components/InputComponent.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Systems/InputSystem.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Systems/PhysicsSystem.cpp
@@ -15,7 +15,6 @@ add_executable(${SERVER_TARGET_NAME}
 target_include_directories(${SERVER_TARGET_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Network
 
     ${CMAKE_SOURCE_DIR}/Common/Source/Components
     ${CMAKE_SOURCE_DIR}/Common/Source/Core

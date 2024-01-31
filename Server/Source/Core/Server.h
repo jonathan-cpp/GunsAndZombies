@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////
 
 #include "Core.h"
-#include "ServerNetwork.h"
+#include "NetworkManager.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -48,5 +48,5 @@ private:
     Server&& operator=(Server&&) = delete;
 
 private:
-    UniquePtr<ServerNetwork> m_network;
+    UniquePtr<NetworkManager> m_network;
 };

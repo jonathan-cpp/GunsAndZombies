@@ -4,8 +4,8 @@
 
 Client::Client() 
 {
-    
-    m_network->StartNetworkThread("localhost", 29027);
+    m_network = std::make_unique<NetworkManager>();
+    m_network->StartClient(sf::IpAddress::LocalHost, 12345);
 
     const int width = 800;
     const int height = 600;

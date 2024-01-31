@@ -13,14 +13,7 @@
 // Thirdparty Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #include <SFML/Network.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Joystick.hpp>
-#include <SFML/Window/Mouse.hpp>
-#include <SFML/Window/Event.hpp>
-
 #include <entt/entt.hpp>
 
 //////////////////////////////////////////////////////////
@@ -40,22 +33,35 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class ClientNetwork {
+class NetworkManager {
 public:
-    ClientNetwork();
-    virtual ~ClientNetwork(); 
+    NetworkManager();
+    virtual ~NetworkManager();
 
-    void StartNetworkThread(sf::IpAddress ip, uint16_t port);
-    void ReceivePackets(sf::TcpSocket* socket);
-    void SendPacket(sf::Packet& packet);
-    void NetworkThreadFunction();
+    // Client-related functions
+    void StartClient(const sf::IpAddress& serverIp, uint16_t serverPort);
+    void StopClient();
+    void ClientThread();
+
+    // Server-related functions
+    void StartServer(uint16_t port);
+    void StopServer();
+    void HandleClientConnections();
+    void HandleClientPackets();
+
+    // Common functions
+    void BroadcastPacket(sf::Packet& packet, sf::IpAddress excludeAddress, unsigned short port);
+    void ReceivePacket(sf::TcpSocket& socket, size_t clientId);
+    void SendPacket(sf::Packet &packet, sf::TcpSocket* socket);
+    void DisconnectClient(size_t position);
 
 private:
-    sf::TcpSocket m_tcpSocket;
+    sf::TcpSocket m_clientSocket;
+    sf::TcpListener m_serverListener;
+    std::vector<UniquePtr<sf::TcpSocket>> m_clients;
     std::thread m_networkThread;
     std::mutex m_mutex;
     std::condition_variable m_cv;
     bool m_exitThread;
 
-    sf::Packet m_lastPacket;
 };

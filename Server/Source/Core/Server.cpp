@@ -3,8 +3,8 @@
 Server::Server() 
 {
     logl("Server::Server()");
-    m_network = std::make_unique<ServerNetwork>();
-    m_network->StartNetworkThread("localhost", 29027);
+    m_network = std::make_unique<NetworkManager>();
+    m_network->StartServer(12345);
 }
 
 void Server::Run() 
@@ -17,7 +17,6 @@ void Server::Run()
 
     while (true) 
     {
-        m_network->NetworkThreadFunction();
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
 }
