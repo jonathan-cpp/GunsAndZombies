@@ -4,28 +4,28 @@
 // Standard Library Headers
 //////////////////////////////////////////////////////////
 
-#include <string>
-#include <iostream>
+
 
 //////////////////////////////////////////////////////////
-// Thirdparty Headers
+// External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Network.hpp>
 
-#include <entt/entt.hpp>
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "Core.h"
-#include "NetworkManager.h"
+
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
+//////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////
+// Constants and Enums
 //////////////////////////////////////////////////////////
 
 
@@ -36,10 +36,10 @@
 
 class Server {
 public:
-    Server();
+    explicit Server() = default;
     virtual ~Server() = default;
 
-    void Run();
+    // Public Functions
 
 private:
     Server(const Server&) = delete;
@@ -48,5 +48,9 @@ private:
     Server&& operator=(Server&&) = delete;
 
 private:
-    UniquePtr<NetworkManager> m_network;
+    // Private Functions
+
+private:
+    // Member Variables
+
 };

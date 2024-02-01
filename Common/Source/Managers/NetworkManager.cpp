@@ -63,6 +63,8 @@ void NetworkManager::StartServer(uint16_t port)
         return;
     }
 
+    logl(sf::IpAddress::getLocalAddress() << "\t" << m_serverListener.getLocalPort());
+
     m_networkThread = std::thread(&NetworkManager::HandleClientConnections, this);
 }
 
@@ -199,4 +201,22 @@ void NetworkManager::DisconnectClient(size_t position)
     {
         logl("Invalid client position");
     }
+}
+
+void NetworkManager::Update(float deltaTime)
+{
+    // Process UDP messages
+    //ReceiveMessageUDP();
+
+    // Process TCP messages
+    //ReceiveMessageTCP();
+
+    // Handle game logic based on received messages
+    //Prediction(deltaTime);
+
+    // Synchronize players with both UDP and TCP data
+    //SyncPlayers(deltaTime);
+
+    // Disconnect players for both UDP and TCP
+    //DisconnectPlayers();
 }

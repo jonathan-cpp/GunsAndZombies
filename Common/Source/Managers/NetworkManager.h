@@ -10,7 +10,7 @@
 #include <mutex>
 
 //////////////////////////////////////////////////////////
-// Thirdparty Headers
+// External Library Headers
 //////////////////////////////////////////////////////////
 
 #include <SFML/Network.hpp>
@@ -30,12 +30,18 @@
 
 
 //////////////////////////////////////////////////////////
+// Constants and Enums
+//////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////
 // Class Declaration
 //////////////////////////////////////////////////////////
 
 class NetworkManager {
 public:
-    NetworkManager();
+    explicit NetworkManager();
     virtual ~NetworkManager();
 
     // Client-related functions
@@ -54,6 +60,16 @@ public:
     void ReceivePacket(sf::TcpSocket& socket, size_t clientId);
     void SendPacket(sf::Packet &packet, sf::TcpSocket* socket);
     void DisconnectClient(size_t position);
+    void Update(float deltaTime);
+
+private:
+    NetworkManager(const NetworkManager&) = delete;
+    NetworkManager(NetworkManager &&) = delete;
+    NetworkManager& operator=(const NetworkManager&) = delete;
+    NetworkManager&& operator=(NetworkManager&&) = delete;
+
+private:
+    // Private Functions
 
 private:
     sf::TcpSocket m_clientSocket;
@@ -63,5 +79,4 @@ private:
     std::mutex m_mutex;
     std::condition_variable m_cv;
     bool m_exitThread;
-
 };

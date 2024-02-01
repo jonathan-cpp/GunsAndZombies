@@ -4,29 +4,28 @@
 // Standard Library Headers
 //////////////////////////////////////////////////////////
 
-#include <string>
-#include <iostream>
+
 
 //////////////////////////////////////////////////////////
-// Thirdparty Headers
+// External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Network.hpp>
 
-#include <entt/entt.hpp>
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "Core.h"
-#include "NetworkManager.h"
-#include "SceneManager.h"
+
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
+//////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////
+// Constants and Enums
 //////////////////////////////////////////////////////////
 
 
@@ -37,10 +36,10 @@
 
 class Client {
 public:
-    Client();
+    explicit Client() = default;
     virtual ~Client() = default;
 
-    void Run();
+    // Public Functions
 
 private:
     Client(const Client&) = delete;
@@ -49,10 +48,9 @@ private:
     Client&& operator=(Client&&) = delete;
 
 private:
-    void handleEvent(const sf::Event& event); 
+    // Private Functions
 
 private:
-    UniquePtr<NetworkManager> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    // Member Variables
+
 };

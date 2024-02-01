@@ -4,27 +4,19 @@
 // Standard Library Headers
 //////////////////////////////////////////////////////////
 
-#include <functional>
+
 
 //////////////////////////////////////////////////////////
-// Thirdparty Headers
+// External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Network.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Joystick.hpp>
-#include <SFML/Window/Mouse.hpp>
-#include <SFML/Window/Event.hpp>
 
-#include <entt/entt.hpp>
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "Utility.h"
+
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -33,11 +25,33 @@
 
 
 //////////////////////////////////////////////////////////
+// Constants and Enums
+//////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class IComponent {
+class Event { 
 public:
-    IComponent() {}
-    virtual ~IComponent() {}
+    Event() = default;
+    virtual ~Event() = default;
+};
+
+class EventListener {
+public:
+    virtual ~EventListener() = default;
+    virtual void OnEvent(const Event& event) = 0;
+};
+
+class EventDispatcher {
+public:
+    EventDispatcher() = default;
+    virtual ~EventDispatcher() = default;
+
+    void AddEventListener(EventListener* listener);
+    void RemoveEventListener(EventListener* listener);
+    void DispatchEvent(const Event& event);
 };

@@ -1,26 +1,23 @@
 # Server/CMakeLists.txt
 
 add_executable(${SERVER_TARGET_NAME}
+    # Server related source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Server.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/EntryPoint.cpp
 
-    ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces/IScene.cpp
-    ${CMAKE_SOURCE_DIR}/Common/Source/Managers/SceneManager.cpp
+    # Common source files
     ${CMAKE_SOURCE_DIR}/Common/Source/Managers/NetworkManager.cpp
-    ${CMAKE_SOURCE_DIR}/Common/Source/Components/InputComponent.cpp
-    ${CMAKE_SOURCE_DIR}/Common/Source/Systems/InputSystem.cpp
-    ${CMAKE_SOURCE_DIR}/Common/Source/Systems/PhysicsSystem.cpp
 )
 
 target_include_directories(${SERVER_TARGET_NAME} PUBLIC
+    # Server related includes
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core
 
-    ${CMAKE_SOURCE_DIR}/Common/Source/Components
+    # Common includes
     ${CMAKE_SOURCE_DIR}/Common/Source/Core
-    ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces
     ${CMAKE_SOURCE_DIR}/Common/Source/Managers
-    ${CMAKE_SOURCE_DIR}/Common/Source/Systems
+    ${CMAKE_SOURCE_DIR}/Common/Source/Network
 )
 
 #=========================================================================================
