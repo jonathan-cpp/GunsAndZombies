@@ -203,20 +203,34 @@ void NetworkManager::DisconnectClient(size_t position)
     }
 }
 
+/*
 void NetworkManager::Update(float deltaTime)
 {
     // Process UDP messages
-    //ReceiveMessageUDP();
+    ReceiveMessageUDP();
 
     // Process TCP messages
-    //ReceiveMessageTCP();
+    ReceiveMessageTCP();
 
     // Handle game logic based on received messages
-    //Prediction(deltaTime);
+    Prediction(deltaTime);
 
     // Synchronize players with both UDP and TCP data
-    //SyncPlayers(deltaTime);
+    SyncPlayers(deltaTime);
 
     // Disconnect players for both UDP and TCP
-    //DisconnectPlayers();
+    DisconnectPlayers();
 }
+
+// Client
+void NetworkManager::Update(float deltaTime)
+{
+	SendMessageUDP(deltaTime);
+
+	SendMessageTCP(deltaTime);
+
+	ReceiveMessageUDP();
+
+	ReceiveMessageTCP();
+}
+*/

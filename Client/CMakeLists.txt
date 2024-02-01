@@ -17,8 +17,9 @@ target_include_directories(${CLIENT_TARGET_NAME} PUBLIC
 
     # Common includes
     ${CMAKE_SOURCE_DIR}/Common/Source/Core
-    ${CMAKE_SOURCE_DIR}/Common/Source/Managers
+    ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces
     ${CMAKE_SOURCE_DIR}/Common/Source/Network
+    ${CMAKE_SOURCE_DIR}/Common/Source/Managers
 )
 
 #=========================================================================================
