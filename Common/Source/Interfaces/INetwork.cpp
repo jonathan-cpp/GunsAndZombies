@@ -7,35 +7,53 @@ bool INetwork::CheckSocketStatus(sf::Socket::Status status)
     switch (status) 
     {
         case sf::Socket::Done:
-            // Operation succeeded
             succeeded = true;
             break;
         case sf::Socket::NotReady:
-            // No data available at the moment
+            //std::cerr << "No data available at the moment" << std::endl;
             break;
         case sf::Socket::Partial:
-            // Partial data received/sent
+            //std::cerr << "Partial data received/sent" << std::endl;
             break;
         case sf::Socket::Disconnected:
-            // The remote peer disconnected
+            //std::cerr << "The remote peer disconnected" << std::endl;
             break;
         case sf::Socket::Error:
-            // An unexpected error occurred
+            //std::cerr << "An unexpected error occurred" << std::endl;
             break;
         default:
-            // Handle any other status that might be added in the future
+            //std::cerr << "Unknown problem occured" << std::endl;
             break;
     }
 
     return succeeded;
 }
 
+void INetwork::AcceptTcpConnection()
+{
+    // Create a new socket for the accepted connection
+    sf::TcpSocket* newTcpSocket = new sf::TcpSocket;
+
+    if (CheckSocketStatus(m_listener.accept(*newTcpSocket)))
+    {
+        sf::Packet receivedPacket;
+        sf::Socket::Status status = newTcpSocket->receive(receivedPacket);
+
+        if (CheckSocketStatus(status) && receivedPacket.getDataSize() > 0)
+        {
+            // Process the received packet for the new connection
+            ProcessTcpPacket(receivedPacket);
+        }
+    }
+
+    delete newTcpSocket;
+}
+
 void INetwork::ReceiveTcpPacket() 
 {
     sf::Packet receivedPacket;
-    sf::Socket::Status status = m_tcpSocket->receive(receivedPacket);
 
-    if (CheckSocketStatus(status)) 
+    if (CheckSocketStatus(m_tcpSocket.receive(receivedPacket))) 
     {
         if(receivedPacket.getDataSize() > 0)
         {     
@@ -50,9 +68,7 @@ void INetwork::ReceiveUdpPacket()
     sf::IpAddress remoteAddress;
     unsigned short remotePort;
 
-    sf::Socket::Status status = m_udpSocket->receive(receivedPacket, remoteAddress, remotePort);
-
-    if (CheckSocketStatus(status)) 
+    if (CheckSocketStatus(m_udpSocket.receive(receivedPacket, remoteAddress, remotePort))) 
     {
         if(receivedPacket.getDataSize() > 0)
         {     
@@ -61,7 +77,7 @@ void INetwork::ReceiveUdpPacket()
     }  
 }
 
-void INetwork::SendTcpPacket(sf::Packet &packet, std::shared_ptr<sf::TcpSocket> socket) 
+void INetwork::SendTcpPacket(sf::Packet &packet, sf::TcpSocket* socket) 
 {
     if(packet.getDataSize() > 0)
     {
@@ -74,7 +90,7 @@ void INetwork::SendUdpPacket(sf::Packet &packet, sf::IpAddress remoteAddress, un
 {
     if(packet.getDataSize() > 0)
     {
-        sf::Socket::Status status = m_udpSocket->send(packet, remoteAddress, remotePort);
+        sf::Socket::Status status = m_udpSocket.send(packet, remoteAddress, remotePort);
         CheckSocketStatus(status);
     }
 }

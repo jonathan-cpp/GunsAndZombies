@@ -4,6 +4,8 @@
 // Standard Library Headers
 //////////////////////////////////////////////////////////
 
+#include <iostream>
+#include <memory>
 #include <any>
 
 //////////////////////////////////////////////////////////
@@ -16,7 +18,7 @@
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "Core.h"
+
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,18 +38,22 @@
 
 class INetwork {
 public:
+    explicit INetwork() = default;
     virtual ~INetwork() = default;
 
-    // Start the network communication, connecting to the specified server.
+    // Start the network communication.
     virtual void Start(const sf::IpAddress& serverIp, unsigned short serverPort) = 0;
 
-    // Stop the network communication, stopping the server.
+    // Stop the network communication.
     virtual void Stop() = 0;
 
     // Update the network logic with the given time interval.
     virtual void Update(float deltaTime) = 0;
 
-protected: 
+protected:
+    // This function checks the status of the TCP listener socket and,
+    // accept any incomming connection.
+    void AcceptTcpConnection();
     // Function to handle the reception of TCP packets.
     // It evokes ProcessTcpPacket upon packet received.
     void ReceiveTcpPacket();
@@ -57,7 +63,7 @@ protected:
     void ReceiveUdpPacket();
 
     // Send a TCP packet to the specified TCP socket.
-    void SendTcpPacket(sf::Packet &packet, std::shared_ptr<sf::TcpSocket> socket);
+    void SendTcpPacket(sf::Packet &packet, sf::TcpSocket* socket);
 
     // Send a UDP packet to the specified UDP socket.
     void SendUdpPacket(sf::Packet &packet, sf::IpAddress remoteAddress, unsigned short remotePort);
@@ -77,21 +83,21 @@ protected:
     virtual void ProcessUdpPacket(const sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) = 0;
 
     // Serialize higher-level data into a SFML Packet for transmission.
-    virtual sf::Packet SerializeData(const std::any& data) const {}
+    virtual sf::Packet SerializeData(const std::any& data) const { return sf::Packet(); }
 
     // Deserialize an SFML Packet into higher-level data.
-    virtual std::any DeserializeData(const sf::Packet& packet) const {}
+    virtual std::any DeserializeData(const sf::Packet& packet) const { return std::any(); }
 
 private:
-    explicit INetwork() = default;
     INetwork(const INetwork&) = delete;
     INetwork(INetwork &&) = delete;
     INetwork& operator=(const INetwork&) = delete;
     INetwork&& operator=(INetwork&&) = delete;
 
 protected:
-    std::shared_ptr<sf::TcpSocket> m_tcpSocket;
-    std::shared_ptr<sf::UdpSocket> m_udpSocket;
+    sf::TcpSocket m_tcpSocket;
+    sf::UdpSocket m_udpSocket;
+    sf::TcpListener m_listener;
 
 private:
 

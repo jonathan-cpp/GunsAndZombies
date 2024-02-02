@@ -16,7 +16,7 @@
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
+#include "INetwork.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -34,23 +34,35 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class ClientNetwork : public INetwork {
 public:
-    explicit Client();
-    virtual ~Client();
+    explicit ClientNetwork() = default;
+    virtual ~ClientNetwork() = default;
 
-    // Public Functions
+    // Start the network communication.
+    virtual void Start(const sf::IpAddress& serverIp, unsigned short serverPort) override;
+
+    // Stop the network communication.
+    virtual void Stop() override;
+
+    // Update the network logic with the given time interval.
+    virtual void Update(float deltaTime) override;
+
+protected:
+    virtual void ProcessTcpPacket(const sf::Packet& receivedPacket) override {}
+
+    virtual void ProcessUdpPacket(const sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override {}
 
 private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    ClientNetwork(const ClientNetwork&) = delete;
+    ClientNetwork(ClientNetwork &&) = delete;
+    ClientNetwork& operator=(const ClientNetwork&) = delete;
+    ClientNetwork&& operator=(ClientNetwork&&) = delete;
 
 private:
     // Private Functions
 
 private:
     // Member Variables
-    std::shared_ptr<ClientNetwork> m_network;
+
 };

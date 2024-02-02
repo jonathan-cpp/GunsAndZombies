@@ -16,7 +16,7 @@
 // Project Headers
 //////////////////////////////////////////////////////////
 
-
+#include "ServerNetwork.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,8 +36,8 @@
 
 class Server {
 public:
-    explicit Server() = default;
-    virtual ~Server() = default;
+    explicit Server();
+    virtual ~Server();
 
     // Public Functions
 
@@ -51,6 +51,5 @@ private:
     // Private Functions
 
 private:
-    // Member Variables
-
+    std::shared_ptr<ServerNetwork> m_network;
 };

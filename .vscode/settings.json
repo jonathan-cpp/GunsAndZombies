@@ -80,6 +80,7 @@
         "queue": "cpp",
         "regex": "cpp",
         "set": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "any": "cpp"
     }
 }

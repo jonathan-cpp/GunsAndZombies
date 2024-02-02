@@ -4,17 +4,18 @@ add_executable(${CLIENT_TARGET_NAME}
     # Client related source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Client.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/EntryPoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Network/ClientNetwork.cpp
 
     # Common source files
     ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces/INetwork.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Managers/EventSystem.cpp
-    ${CMAKE_SOURCE_DIR}/Common/Source/Managers/NetworkManager.cpp
 )
 
 target_include_directories(${CLIENT_TARGET_NAME} PUBLIC
     # Client related includes
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Network
 
     # Common includes
     ${CMAKE_SOURCE_DIR}/Common/Source/Core
