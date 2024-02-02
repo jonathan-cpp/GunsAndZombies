@@ -85,12 +85,10 @@ public:
 class EventDispatcher {
 public:  
     static EventDispatcher& GetInstance() {
-        // Threadsafe since C++11
         static EventDispatcher instance; 
         return instance;
     }
 
-    // Subscribe
     template <typename EventType>
     void AddEventListener(std::shared_ptr<IEventListener> listener) {
         auto& listeners = m_eventListeners[typeid(EventType)];
@@ -100,14 +98,12 @@ public:
         }
     }
 
-    // Unsubscribe
     template <typename EventType>
     void RemoveEventListener(std::shared_ptr<IEventListener> listener) {
         auto& listeners = m_eventListeners[typeid(EventType)];
         listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
     }
 
-    // Notify
     template <typename EventType>
     void DispatchEvent(const EventType& event) {
         const auto& listeners = m_eventListeners[typeid(EventType)];

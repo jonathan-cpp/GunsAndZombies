@@ -6,6 +6,7 @@ add_executable(${CLIENT_TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/EntryPoint.cpp
 
     # Common source files
+    ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces/INetwork.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Managers/EventSystem.cpp
     ${CMAKE_SOURCE_DIR}/Common/Source/Managers/NetworkManager.cpp
 )
