@@ -5,6 +5,7 @@
 //////////////////////////////////////////////////////////
 
 #include <thread>
+#include <vector>
 
 //////////////////////////////////////////////////////////
 // External Library Headers
@@ -34,6 +35,15 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
+struct ClientData {
+    float timeSinceLastRealMessage = 0.0f;
+    sf::IpAddress address = sf::IpAddress::None;
+    unsigned short port = 0;
+
+    std::shared_ptr<sf::TcpSocket> tcpSocket;
+    std::shared_ptr<sf::UdpSocket> udpSocket;
+};
+
 class ServerNetwork : public INetwork {
 public:
     explicit ServerNetwork() = default;
@@ -49,9 +59,11 @@ public:
     virtual void Update(float deltaTime) override;
 
 protected:
-    virtual void ProcessTcpPacket(const sf::Packet& receivedPacket) override;
+    virtual void ClientConnected(sf::TcpSocket* socket) override;
 
-    virtual void ProcessUdpPacket(const sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override;
+    virtual void ProcessTcpPacket(sf::Packet& receivedPacket) override;
+
+    virtual void ProcessUdpPacket(sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override;
 
 private:
     ServerNetwork(const ServerNetwork&) = delete;
@@ -61,8 +73,10 @@ private:
 
 private:
     void handleTcpConnectionsThread();
+    void disconnectPlayers();
 
 private:
     std::thread m_tcpThread;
-
+    std::vector<ClientData> m_connectedClients;
+    sf::SocketSelector m_selector;
 };

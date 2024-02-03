@@ -49,9 +49,9 @@ public:
     virtual void Update(float deltaTime) override;
 
 protected:
-    virtual void ProcessTcpPacket(const sf::Packet& receivedPacket) override {}
+    virtual void ProcessTcpPacket(sf::Packet& receivedPacket) override {}
 
-    virtual void ProcessUdpPacket(const sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override {}
+    virtual void ProcessUdpPacket(sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override {}
 
 private:
     ClientNetwork(const ClientNetwork&) = delete;
