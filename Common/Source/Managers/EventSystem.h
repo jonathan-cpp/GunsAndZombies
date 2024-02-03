@@ -68,7 +68,7 @@ class eventName : public BaseEvent<__VA_ARGS__> {};
 //public:
 //    DECLARE_EVENT(ExampleEvent, float, float)
 //    // or using ExampleEvent = BaseEvent<float, float>;
-//    ExampleEvent OnEvent;
+//    ExampleEvent OnExampleEvent;
 //};
 
 class IEvent {

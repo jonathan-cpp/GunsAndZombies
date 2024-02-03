@@ -48,11 +48,6 @@ public:
     // Update the network logic with the given time interval.
     virtual void Update(float deltaTime) override;
 
-protected:
-    virtual void ProcessTcpPacket(sf::Packet& receivedPacket) override {}
-
-    virtual void ProcessUdpPacket(sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override {}
-
 private:
     ClientNetwork(const ClientNetwork&) = delete;
     ClientNetwork(ClientNetwork &&) = delete;

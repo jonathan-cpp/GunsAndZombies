@@ -15,7 +15,31 @@ void ServerNetwork::Start(const sf::IpAddress &serverIp, unsigned short serverPo
         std::cout << "Server UDP started on IP: " << serverIp.toString() << ", Port: " << serverPort << std::endl;
     }
 
-    m_tcpThread = std::thread(&ServerNetwork::handleTcpConnectionsThread, this);
+    OnPeerConnected += [this](sf::TcpSocket* socket) {
+        ClientData clientData;
+        clientData.tcpSocket = std::shared_ptr<sf::TcpSocket>(socket);
+        m_connectedClients.push_back(clientData);
+        m_selector.add(*clientData.tcpSocket);
+        
+        sf::Packet packet;
+        packet << "Welcome to the server!";
+        SendTcpPacket(packet, socket);
+        packet.clear();
+    };
+
+    OnTcpPacketReveived += [](sf::Packet& packet) {
+        std::string msg;
+        packet >> msg;
+        std::cout << msg << std::endl;
+    };
+
+    OnUdpPacketReveived += [](sf::Packet& packet, sf::IpAddress ipAdress, unsigned int port) {
+        std::string msg;
+        packet >> msg;
+        std::cout << msg << std::endl;
+    };
+
+    m_tcpThread = std::thread(&ServerNetwork::HandleTcpConnectionsThread, this);
 }
 
 void ServerNetwork::Stop()
@@ -34,7 +58,9 @@ void ServerNetwork::Stop()
 
 void ServerNetwork::Update(float deltaTime)
 {
-    while(true)
+    sf::Clock clock;
+
+    while(clock.getElapsedTime().asSeconds() < 5.f) 
     {
         ReceiveUdpPacket();
 
@@ -53,44 +79,33 @@ void ServerNetwork::Update(float deltaTime)
 
         //SyncPlayers(deltaTime);
 
-        disconnectPlayers();        
+        DisconnectPlayers();        
     }
 }
 
-void ServerNetwork::ClientConnected(sf::TcpSocket* socket) 
-{
-    ClientData clientData;
-    clientData.tcpSocket = std::shared_ptr<sf::TcpSocket>(socket);
-    m_connectedClients.push_back(clientData);
-    m_selector.add(*clientData.tcpSocket);
-}
-
-void ServerNetwork::handleTcpConnectionsThread()
+void ServerNetwork::HandleTcpConnectionsThread()
 {
     while (true)
     {
-        AcceptTcpConnection();
+        HandleIncomingConnection();
     }
 }
 
-void ServerNetwork::disconnectPlayers()
+void ServerNetwork::DisconnectPlayers()
 {
-    for (int i = 0; i < m_connectedClients.size(); i++)
+    for (auto& client : m_connectedClients)
     {
-
+        
     }
 }
 
-void ServerNetwork::ProcessTcpPacket(sf::Packet &receivedPacket)
+void ServerNetwork::Broadcast(sf::Packet &packet, const sf::IpAddress& ignore)
 {
-    std::string msg;
-    receivedPacket >> msg;
-    std::cout << msg << std::endl;
-}
-
-void ServerNetwork::ProcessUdpPacket(sf::Packet &receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort)
-{
-    std::string msg;
-    receivedPacket >> msg;
-    std::cout << msg << std::endl;
+    for (auto& client : m_connectedClients)
+    {
+        if(client.address != ignore)
+        {
+            SendTcpPacket(packet, client.tcpSocket.get());
+        }
+    }
 }

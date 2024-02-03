@@ -58,13 +58,6 @@ public:
     // Update the network logic with the given time interval.
     virtual void Update(float deltaTime) override;
 
-protected:
-    virtual void ClientConnected(sf::TcpSocket* socket) override;
-
-    virtual void ProcessTcpPacket(sf::Packet& receivedPacket) override;
-
-    virtual void ProcessUdpPacket(sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) override;
-
 private:
     ServerNetwork(const ServerNetwork&) = delete;
     ServerNetwork(ServerNetwork &&) = delete;
@@ -72,8 +65,9 @@ private:
     ServerNetwork&& operator=(ServerNetwork&&) = delete;
 
 private:
-    void handleTcpConnectionsThread();
-    void disconnectPlayers();
+    void HandleTcpConnectionsThread();
+    void DisconnectPlayers();
+    void Broadcast(sf::Packet& packet, const sf::IpAddress& ignore);
 
 private:
     std::thread m_tcpThread;

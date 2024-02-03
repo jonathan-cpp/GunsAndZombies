@@ -1,15 +1,14 @@
 #include "INetwork.h"
 
-void INetwork::AcceptTcpConnection()
+void INetwork::HandleIncomingConnection()
 {
-    // Create a new socket for the accepted connection
     sf::TcpSocket* newTcpSocket = new sf::TcpSocket;
 
     sf::Socket::Status status = m_listener.accept(*newTcpSocket);
 
     if (status == sf::Socket::Done)
     {
-        ClientConnected(newTcpSocket);
+        OnPeerConnected(newTcpSocket);
     }
     else 
     {
@@ -22,11 +21,12 @@ void INetwork::ReceiveTcpPacket(sf::TcpSocket* socket)
     sf::Packet receivedPacket;
 
     sf::Socket::Status status = socket->receive(receivedPacket);
+
     if (status == sf::Socket::Done)
     {
         if(receivedPacket.getDataSize() > 0)
-        {     
-            ProcessTcpPacket(receivedPacket);
+        {    
+            OnTcpPacketReveived(receivedPacket); 
         }
     }   
 }   
@@ -38,11 +38,12 @@ void INetwork::ReceiveUdpPacket()
     unsigned short remotePort;
 
     sf::Socket::Status status = m_udpSocket.receive(receivedPacket, remoteAddress, remotePort);
+
     if (status == sf::Socket::Done)
     {
         if(receivedPacket.getDataSize() > 0)
         {     
-            ProcessUdpPacket(receivedPacket, remoteAddress, remotePort);
+            OnUdpPacketReveived(receivedPacket, remoteAddress, remotePort);
         }
     }  
 }
@@ -52,6 +53,7 @@ void INetwork::SendTcpPacket(sf::Packet &packet, sf::TcpSocket* socket)
     if(packet.getDataSize() > 0)
     {
         sf::Socket::Status status = socket->send(packet);
+
         switch (status) 
         {
             case sf::Socket::Done:
@@ -75,6 +77,7 @@ void INetwork::SendUdpPacket(sf::Packet &packet, sf::IpAddress remoteAddress, un
     if(packet.getDataSize() > 0)
     {
         sf::Socket::Status status = m_udpSocket.send(packet, remoteAddress, remotePort);
+
         switch (status) 
         {
             case sf::Socket::Done:

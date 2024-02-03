@@ -14,20 +14,17 @@ void ClientNetwork::Start(const sf::IpAddress &serverIp, unsigned short serverPo
         return;
     }
 
-    sf::Packet packet;
-    for (int i = 0; i < 25; i++)
-    {      
-        // Send an initial UDP packet to the server to establish a connection
-        std::string msg = "UDP packet " + std::to_string(i);
-        packet << msg;
-        SendUdpPacket(packet, serverIp, serverPort);
-        packet.clear();
-        
-        msg = "TCP packet " + std::to_string(i);
-        packet << msg;
-        SendTcpPacket(packet, &m_tcpSocket);
-        packet.clear();
-    }
+    OnTcpPacketReveived += [](sf::Packet& packet) {
+        std::string msg;
+        packet >> msg;
+        std::cout << msg << std::endl;
+    };
+
+    OnUdpPacketReveived += [](sf::Packet& packet, sf::IpAddress ipAdress, unsigned int port) {
+        std::string msg;
+        packet >> msg;
+        std::cout << msg << std::endl;
+    };
 }
 
 void ClientNetwork::Stop()
@@ -47,4 +44,10 @@ void ClientNetwork::Stop()
 
 void ClientNetwork::Update(float deltaTime)
 {
+    sf::Clock clock;
+
+    while(clock.getElapsedTime().asSeconds() < 5.f) 
+    {
+        ReceiveTcpPacket(&m_tcpSocket);
+    }
 }

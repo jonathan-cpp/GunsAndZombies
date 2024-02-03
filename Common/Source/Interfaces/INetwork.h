@@ -18,7 +18,7 @@
 // Project Headers
 //////////////////////////////////////////////////////////
 
-
+#include "EventSystem.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -50,14 +50,23 @@ public:
     // Update the network logic with the given time interval.
     virtual void Update(float deltaTime) = 0;
 
+    // Function Callbacks
+    DECLARE_EVENT(PeerConnectedEvent, sf::TcpSocket*);
+    PeerConnectedEvent OnPeerConnected;
+
+    DECLARE_EVENT(PeerDisconnectedEvent, sf::TcpSocket*);
+    PeerDisconnectedEvent OnPeerDisconnected;
+
+    DECLARE_EVENT(TcpPacketReceivedEvent, sf::Packet&);
+    TcpPacketReceivedEvent OnTcpPacketReveived;
+
+    DECLARE_EVENT(UdpPacketReceivedEvent, sf::Packet&, sf::IpAddress, unsigned short);
+    UdpPacketReceivedEvent OnUdpPacketReveived;
+
 protected:
     // This function checks the status of the TCP listener socket and
     // accept any incomming connection.
-    void AcceptTcpConnection();
-
-    // Virtual function to be implemented by derived classes.
-    // Invoked when listenner accept new client.
-    virtual void ClientConnected(sf::TcpSocket* socket) {};
+    void HandleIncomingConnection();
 
     // Function to handle the reception of TCP packets.
     // It evokes ProcessTcpPacket upon packet received.
@@ -72,16 +81,6 @@ protected:
 
     // Send a UDP packet to the specified UDP socket.
     void SendUdpPacket(sf::Packet &packet, sf::IpAddress remoteAddress, unsigned short remotePort);
-
-    // Virtual function to be implemented by derived classes
-    // Process the received message. Derived classes should implement this function to define
-    // how to handle the received TCP packets.
-    virtual void ProcessTcpPacket(sf::Packet& receivedPacket) = 0;
-
-    // Virtual function to be implemented by derived classes
-    // Process the received message. Derived classes should implement this function to define
-    // how to handle the received UDP packets.
-    virtual void ProcessUdpPacket(sf::Packet& receivedPacket, sf::IpAddress remoteAddress, unsigned short remotePort) = 0;
 
     // Serialize higher-level data into a SFML Packet for transmission.
     virtual sf::Packet SerializeData(const std::any& data) const { return sf::Packet(); }
