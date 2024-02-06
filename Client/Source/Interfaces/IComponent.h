@@ -11,14 +11,16 @@
 //////////////////////////////////////////////////////////
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+
+#include <entt/entt.hpp>
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "Utility.h"
+#include "Constants.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,24 +38,8 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class IComponent {
 public:
-    explicit Client();
-    virtual ~Client();
-
-    void Start();
-
-private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
-
-private:
-    // Private Functions
-
-private:
-    std::shared_ptr<ClientNetwork> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    IComponent() {}
+    virtual ~IComponent() {}
 };

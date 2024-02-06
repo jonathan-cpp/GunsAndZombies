@@ -4,21 +4,20 @@
 // Standard Library Headers
 //////////////////////////////////////////////////////////
 
-
+#include <string>
 
 //////////////////////////////////////////////////////////
 // External Library Headers
 //////////////////////////////////////////////////////////
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,24 +35,11 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
-public:
-    explicit Client();
-    virtual ~Client();
-
-    void Start();
-
-private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
-
-private:
-    // Private Functions
-
-private:
-    std::shared_ptr<ClientNetwork> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
-};
+namespace Constants
+{
+    const std::string  WINDOW_TITLE     = "[ Client ]";
+    const unsigned int WINDOW_WIDTH     = 800;
+    const unsigned int WINDOW_HEIGHT    = 600;
+    const sf::Time     TIME_PER_FRAME   = sf::seconds(1.f / 60.f);
+    const sf::Color    CANVAS_COLOR     = sf::Color::Black;
+}

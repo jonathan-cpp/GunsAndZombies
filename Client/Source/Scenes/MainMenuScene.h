@@ -10,15 +10,13 @@
 // External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
+
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "IScene.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,24 +34,22 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class MainMenuScene : public IScene {
 public:
-    explicit Client();
-    virtual ~Client();
+    explicit MainMenuScene(sf::RenderWindow& window);
+    virtual ~MainMenuScene() = default;
 
-    void Start();
+    // Public Functions
 
 private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    MainMenuScene(const MainMenuScene&) = delete;
+    MainMenuScene(MainMenuScene &&) = delete;
+    MainMenuScene& operator=(const MainMenuScene&) = delete;
+    MainMenuScene&& operator=(MainMenuScene&&) = delete;
 
 private:
     // Private Functions
 
 private:
-    std::shared_ptr<ClientNetwork> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    sf::RenderWindow& m_window;
 };

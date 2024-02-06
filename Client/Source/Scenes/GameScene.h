@@ -10,15 +10,13 @@
 // External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
+
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "IScene.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,24 +34,22 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class GameScene : public IScene {
 public:
-    explicit Client();
-    virtual ~Client();
+    explicit GameScene(sf::RenderWindow& window);
+    virtual ~GameScene() = default;
 
-    void Start();
+    // Public Functions
 
 private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    GameScene(const GameScene&) = delete;
+    GameScene(GameScene &&) = delete;
+    GameScene& operator=(const GameScene&) = delete;
+    GameScene&& operator=(GameScene&&) = delete;
 
 private:
     // Private Functions
 
 private:
-    std::shared_ptr<ClientNetwork> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    sf::RenderWindow& m_window;
 };

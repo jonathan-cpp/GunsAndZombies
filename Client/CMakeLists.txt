@@ -4,18 +4,27 @@ add_executable(${CLIENT_TARGET_NAME}
     # Client related source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Client.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/EntryPoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Managers/SceneManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Network/ClientNetwork.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes/MainMenuScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes/LobbyScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes/GameScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Systems/RenderSystem.cpp
 
     # Common source files
     ${CMAKE_SOURCE_DIR}/Common/Source/Interfaces/INetwork.cpp
-    ${CMAKE_SOURCE_DIR}/Common/Source/Managers/EventSystem.cpp
 )
 
 target_include_directories(${CLIENT_TARGET_NAME} PUBLIC
     # Client related includes
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Components
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Interfaces
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Managers
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Network
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Systems
 
     # Common includes
     ${CMAKE_SOURCE_DIR}/Common/Source/Core

@@ -11,14 +11,17 @@
 //////////////////////////////////////////////////////////
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/Audio.hpp>
+
+#include <entt/entt.hpp>
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "Components.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,24 +39,26 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class ISystem {
 public:
-    explicit Client();
-    virtual ~Client();
+    ISystem(entt::registry& registry) 
+        : m_registry(registry) {}
+    virtual ~ISystem() = default;
 
-    void Start();
+	virtual void Update(float deltaTime) = 0;
 
-private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    virtual void FixedUpdate(float deltaTime) {}
 
-private:
-    // Private Functions
+    virtual void Render(sf::RenderWindow& window) {};
+
+    entt::registry& GetRegistry() { return m_registry; }
 
 private:
-    std::shared_ptr<ClientNetwork> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    ISystem(const ISystem&) = delete;
+    ISystem(ISystem &&) = delete;
+    ISystem& operator=(const ISystem&) = delete;
+    ISystem&& operator=(ISystem&&) = delete;
+
+private:
+    entt::registry& m_registry;
 };

@@ -1,20 +1,20 @@
-namespace Server
+namespace NetworkProtocol
 {
-    enum PacketType
+    enum class PacketType
     {
-        BroadcastMessage,	
-		PlayerSpawn,
-		PlayerConnect,
-		PlayerDisconnect,
-    };
-}
+        // Requests from a client to the server
+        Server_GetStatus,
+        Server_GetPing,
 
-namespace Client
-{
-    enum PacketType
-    {
-        PlayerEvent,
-        Connect,
-        Disconnect,
+        // Client-side actions
+        Client_Accepted,
+        Client_AssignID,
+        Client_RegisterWithServer,
+        Client_UnregisterWithServer,
+
+        // Server and clients related actions
+        Game_AddPlayer,
+        Game_RemovePlayer,
+        Game_UpdatePlayer,
     };
 }

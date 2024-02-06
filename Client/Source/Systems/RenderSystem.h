@@ -10,15 +10,13 @@
 // External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
+
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "ISystem.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,24 +34,25 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class RenderSystem : public ISystem {
 public:
-    explicit Client();
-    virtual ~Client();
+    RenderSystem(entt::registry& registry);
+    virtual ~RenderSystem() = default;
 
-    void Start();
+	virtual void Update(float deltaTime) override;
+
+    virtual void Render(sf::RenderWindow& window) override;
 
 private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    RenderSystem(const RenderSystem&) = delete;
+    RenderSystem(RenderSystem &&) = delete;
+    RenderSystem& operator=(const RenderSystem&) = delete;
+    RenderSystem&& operator=(RenderSystem&&) = delete;
 
 private:
     // Private Functions
 
 private:
-    std::shared_ptr<ClientNetwork> m_network;
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    // Member Variables
+
 };
