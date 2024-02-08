@@ -15,6 +15,6 @@ namespace NetworkProtocol
         // Server and clients related actions
         Game_AddPlayer,
         Game_RemovePlayer,
-        Game_UpdatePlayer,
+        Game_UpdatePlayerPosition,
     };
 }

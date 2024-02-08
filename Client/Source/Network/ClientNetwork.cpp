@@ -5,25 +5,27 @@ void ClientNetwork::Start(const sf::IpAddress &serverIp, unsigned short serverPo
     // TCP connection 
     if(m_tcpSocket.connect(serverIp, serverPort) != sf::Socket::Done)
     {
+        std::cout << "TCP connection failed." << std::endl;
         return;
     }
 
     // UDP connection
     if(m_udpSocket.bind(sf::Socket::AnyPort) != sf::Socket::Done)
     {
+        std::cout << "UDP bind failed." << std::endl;
         return;
     }
 
     OnTcpPacketReveived += [](sf::Packet& packet) {
-        std::string msg;
-        packet >> msg;
-        std::cout << msg << std::endl;
+        float x, y;
+        packet >> x >> y;
+        std::cout << x << " " << y << std::endl;
     };
 
     OnUdpPacketReveived += [](sf::Packet& packet, sf::IpAddress ipAdress, unsigned int port) {
-        std::string msg;
-        packet >> msg;
-        std::cout << msg << std::endl;
+        float x, y;
+        packet >> x >> y;
+        std::cout << x << " " << y << std::endl;
     };
 }
 

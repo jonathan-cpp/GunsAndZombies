@@ -20,24 +20,10 @@ void ServerNetwork::Start(const sf::IpAddress &serverIp, unsigned short serverPo
         clientData.tcpSocket = std::shared_ptr<sf::TcpSocket>(socket);
         m_connectedClients.push_back(clientData);
         m_selector.add(*clientData.tcpSocket);
-        
-        sf::Packet packet;
-        packet << "Welcome to the server!";
-        SendTcpPacket(packet, socket);
-        packet.clear();
     };
 
-    OnTcpPacketReveived += [](sf::Packet& packet) {
-        std::string msg;
-        packet >> msg;
-        std::cout << msg << std::endl;
-    };
-
-    OnUdpPacketReveived += [](sf::Packet& packet, sf::IpAddress ipAdress, unsigned int port) {
-        std::string msg;
-        packet >> msg;
-        std::cout << msg << std::endl;
-    };
+    OnTcpPacketReveived += [this](sf::Packet& packet) { HandlePacket(packet); };
+    OnUdpPacketReveived += [this](sf::Packet& packet, sf::IpAddress ip, unsigned short port) { HandlePacket(packet, ip, port); };
 
     m_tcpThread = std::thread(&ServerNetwork::HandleTcpConnectionsThread, this);
 }
@@ -54,22 +40,28 @@ void ServerNetwork::Stop()
     {
         m_tcpThread.join();
     }
+
+    if (m_udpThread.joinable())
+    {
+        m_udpThread.join();
+    }
 }
 
 void ServerNetwork::Update(float deltaTime)
 {
     sf::Clock clock;
 
-    while(clock.getElapsedTime().asSeconds() < 5.f) 
+    while(true) 
     {
         ReceiveUdpPacket();
 
         // Use the selector to check which sockets are ready
-        if (m_selector.wait(sf::milliseconds(100))) 
+        if (m_selector.wait(sf::milliseconds(10))) 
         {
             for (auto& clientData : m_connectedClients) 
             {
-                if (m_selector.isReady(*clientData.tcpSocket)) {
+                if (m_selector.isReady(*clientData.tcpSocket)) 
+                {
                     ReceiveTcpPacket(clientData.tcpSocket.get());
                 }
             }
@@ -108,4 +100,16 @@ void ServerNetwork::Broadcast(sf::Packet &packet, const sf::IpAddress& ignore)
             SendTcpPacket(packet, client.tcpSocket.get());
         }
     }
+}
+
+void ServerNetwork::HandlePacket(sf::Packet &packet)
+{
+
+}
+
+void ServerNetwork::HandlePacket(sf::Packet &packet, sf::IpAddress ip, unsigned short port)
+{
+    float x, y;
+    std::uint32_t entity;
+    packet >> entity >> x >> y;
 }

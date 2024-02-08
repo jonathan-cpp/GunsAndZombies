@@ -68,9 +68,12 @@ private:
     void HandleTcpConnectionsThread();
     void DisconnectPlayers();
     void Broadcast(sf::Packet& packet, const sf::IpAddress& ignore);
+    void HandlePacket(sf::Packet &packet);
+    void HandlePacket(sf::Packet& packet, sf::IpAddress ip, unsigned short port);
 
 private:
     std::thread m_tcpThread;
+    std::thread m_udpThread;
     std::vector<ClientData> m_connectedClients;
     sf::SocketSelector m_selector;
 };

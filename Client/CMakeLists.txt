@@ -2,6 +2,7 @@
 
 add_executable(${CLIENT_TARGET_NAME}
     # Client related source files
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Components/Components.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Client.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/EntryPoint.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Managers/SceneManager.cpp
@@ -9,6 +10,8 @@ add_executable(${CLIENT_TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes/MainMenuScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes/LobbyScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Scenes/GameScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Systems/InputSystem.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Systems/PhysicsSystem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Systems/RenderSystem.cpp
 
     # Common source files

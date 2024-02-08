@@ -5,7 +5,11 @@
 MainMenuScene::MainMenuScene(sf::RenderWindow& window)
     : m_window(window)
 {
+    m_network.Start(sf::IpAddress::LocalHost, 29029);
+
     // Systems
+    AddSystem<InputSystem>(GetRegistry());
+    AddSystem<PhysicsSystem>(GetRegistry(), m_network);
     AddSystem<RenderSystem>(GetRegistry());
 
     // Entities
@@ -25,4 +29,17 @@ MainMenuScene::MainMenuScene(sf::RenderWindow& window)
     std::string path = GetResourceDir() + "Textures/enemy.png";
     texture.loadFromFile(path);
     spriteComponent.sprite.setTexture(texture);
+    auto localBounds = spriteComponent.sprite.getLocalBounds();
+    spriteComponent.sprite.setOrigin(localBounds.width / 2.f, localBounds.height / 2.f);
+
+    auto& input = GetRegistry().emplace<InputComponent>(enemy);
+    input.AddAxisBinding(InputAxis::Horizontal, sf::Keyboard::D, sf::Keyboard::A);
+    input.AddAxisBinding(InputAxis::Horizontal, 0, (sf::Joystick::Axis)ControllerAxis::LStickH);
+    input.AddAxisBinding(InputAxis::Vertical, sf::Keyboard::S, sf::Keyboard::W);
+    input.AddAxisBinding(InputAxis::Vertical, 0, (sf::Joystick::Axis)ControllerAxis::LStickV);
+}
+
+MainMenuScene::~MainMenuScene()
+{
+    m_network.Stop();
 }

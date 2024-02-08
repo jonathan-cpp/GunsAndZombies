@@ -7,9 +7,6 @@
 
 Client::Client()
 {
-    m_network = std::make_shared<ClientNetwork>();
-    m_network->Start(sf::IpAddress::LocalHost, 29029);
-
     m_window.create(sf::VideoMode(Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT)
                     , Constants::WINDOW_TITLE
                     , sf::Style::Titlebar);
@@ -21,6 +18,7 @@ Client::Client()
                         (desktop.height - Constants::WINDOW_HEIGHT) / 2));
 	
 	sf::View view(sf::FloatRect(0, 0, Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT));
+    view.setCenter(Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f);
 
 	m_window.setView(view);
     m_window.setFramerateLimit(60);
@@ -35,7 +33,7 @@ Client::Client()
 
 Client::~Client()
 {
-    m_network->Stop();
+
 }
 
 void Client::Start()

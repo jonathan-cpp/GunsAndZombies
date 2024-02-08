@@ -10,15 +10,14 @@
 // External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
+
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
+#include "ISystem.h"
 #include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,23 +35,25 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class PhysicsSystem : public ISystem {
 public:
-    explicit Client();
-    virtual ~Client();
+    PhysicsSystem(entt::registry& registry, ClientNetwork& network);
+    virtual ~PhysicsSystem() = default;
 
-    void Start();
+	virtual void Update(float deltaTime) override;
+
+	virtual void FixedUpdate(float deltaTime) override;
 
 private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    PhysicsSystem(const PhysicsSystem&) = delete;
+    PhysicsSystem(PhysicsSystem &&) = delete;
+    PhysicsSystem& operator=(const PhysicsSystem&) = delete;
+    PhysicsSystem&& operator=(PhysicsSystem&&) = delete;
 
 private:
     // Private Functions
 
 private:
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    ClientNetwork& m_network;
+
 };

@@ -10,15 +10,14 @@
 // External Library Headers
 //////////////////////////////////////////////////////////
 
-#include <SFML/Graphics.hpp>
+
 
 //////////////////////////////////////////////////////////
 // Project Headers
 //////////////////////////////////////////////////////////
 
-#include "ClientNetwork.h"
-#include "Core.h"
-#include "SceneManager.h"
+#include "ISystem.h"
+#include "EventSystem.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -36,23 +35,23 @@
 // Class Declaration
 //////////////////////////////////////////////////////////
 
-class Client {
+class InputSystem : public ISystem {
 public:
-    explicit Client();
-    virtual ~Client();
+    explicit InputSystem(entt::registry& registry);
+    virtual ~InputSystem() = default;
 
-    void Start();
+    virtual void Update(float deltaTime) override;
 
 private:
-    Client(const Client&) = delete;
-    Client(Client &&) = delete;
-    Client& operator=(const Client&) = delete;
-    Client&& operator=(Client&&) = delete;
+    InputSystem(const InputSystem&) = delete;
+    InputSystem(InputSystem &&) = delete;
+    InputSystem& operator=(const InputSystem&) = delete;
+    InputSystem&& operator=(InputSystem&&) = delete;
 
 private:
     // Private Functions
 
 private:
-    sf::RenderWindow m_window;
-    SceneManager m_sceneManager;
+    // Member Variables
+
 };

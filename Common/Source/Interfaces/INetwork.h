@@ -58,7 +58,6 @@ public:
     DECLARE_EVENT(PeerValidatedEvent, sf::TcpSocket*, sf::IpAddress, unsigned short);
     PeerValidatedEvent OnPeerValidated;
 
-protected:
     // Event triggered when a new peer successfully connects.
     // Parameters:
     //   - sf::TcpSocket*: The TCP socket of the newly connected peer.

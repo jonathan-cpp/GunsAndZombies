@@ -17,6 +17,7 @@
 //////////////////////////////////////////////////////////
 
 #include "IScene.h"
+#include "ClientNetwork.h"
 
 //////////////////////////////////////////////////////////
 // Forward Declarations
@@ -37,7 +38,7 @@
 class MainMenuScene : public IScene {
 public:
     explicit MainMenuScene(sf::RenderWindow& window);
-    virtual ~MainMenuScene() = default;
+    virtual ~MainMenuScene();
 
     // Public Functions
 
@@ -52,4 +53,5 @@ private:
 
 private:
     sf::RenderWindow& m_window;
+    ClientNetwork m_network;
 };
